@@ -1,0 +1,7 @@
+concommand.Add( "warden_version", function() 
+	print("==========================")
+	print("= THIS SERVER IS RUNNING =")
+	print("=     WARDEN V1.0.0      =")
+	print("=     BY: SILHOUHAT      =")
+	print("==========================")
+end )
