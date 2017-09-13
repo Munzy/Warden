@@ -18,7 +18,7 @@ WARDEN.CACHE = WARDEN.CACHE or {}
 WARDEN.Config.Log = true
 
 -- Used for debugging, you probably don't need this set to true..
-WARDEN.Config.Debug = true
+WARDEN.Config.Debug = false
 
 -- How long before we should clear the cache, in seconds.
 WARDEN.Config.CacheTimer = 86400
