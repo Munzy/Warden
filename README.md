@@ -13,7 +13,7 @@ Once installed, the setup for warden is extremely easy. Follow the following ste
 * Step 2) Click the link in your e-mail to verify your account.
 * Step 3) Go to the pricing page and select "Get it for free", then click "Claim your free key"
 * Step 4) Retrieve your API key from either your e-mail or the "account" -> "subscription #xxx" page.
-* Step 5) Enter you API key with the "warden_setapikey [api key]" console command.
+* Step 5) Enter your API key with the "warden_setapikey [api key]" console command.
 That's all!
 
 # Links & Information
