@@ -320,6 +320,7 @@ end )
 
 -- The command used to set the API key to be used.
 concommand.Add( "warden_setapikey", function( ply, cmd, args ) 
+	if !ply:IsSuperAdmin() then return end
 	if not args or table.Count( args ) != 1 then
 		WARDEN_Log( 1, "Invalid syntax! Use \"warden_setapikey [apikey]\"" )
 		return
