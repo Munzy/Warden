@@ -188,19 +188,19 @@ function WARDEN.CheckIP( ip, func, useCache )
 		return
 	end
 
-	http.Fetch( "http://v2.api.iphub.info/ip/"..ip, 
+	http.Fetch( "http://v2.api.iphub.info/ip/"..ip,
 		function( info )
 			info = util.JSONToTable( info )
 
-			local block = 
+			local block =
 				info.code and (
 					(info.code == "InvalidArgument" and -1) or
 					(info.code == "RequestThrottled" and -2) or
 					-3
 				) or info.block
-			
+
 			func( block, info )
-		
+
 			-- Add result to cache if the request wasn't throttled or an unknown error wasn't thrown.
 			if block >= -1 then
 				WARDEN.CACHE[ip] = block
@@ -319,7 +319,7 @@ concommand.Add( "warden_help", function()
 end )
 
 -- The command used to set the API key to be used.
-concommand.Add( "warden_setapikey", function( ply, cmd, args ) 
+concommand.Add( "warden_setapikey", function( ply, cmd, args )
 	if !ply:IsSuperAdmin() then return end
 	if not args or table.Count( args ) != 1 then
 		WARDEN_Log( 1, "Invalid syntax! Use \"warden_setapikey [apikey]\"" )
