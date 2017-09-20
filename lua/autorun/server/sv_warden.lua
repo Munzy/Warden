@@ -14,10 +14,10 @@ WARDEN.CACHE = WARDEN.CACHE or {}
 -- Configuration --
 -------------------
 
--- Logs various events in the console..
+-- Logs various events in the console.
 WARDEN.Config.Log = true
 
--- Used for debugging, you probably don't need this set to true..
+-- Used for debugging, you probably don't need this set to true.
 WARDEN.Config.Debug = false
 
 -- How long before we should clear the cache, in seconds.
@@ -50,8 +50,8 @@ WARDEN.Config.Exceptions = {
 
 -- The kick messages to be displayed.
 WARDEN.Config.KickMessages = {
-	["Invalid IP"] = "Unable to verify IP address.",
-	["Proxy IP"] = "Unable to validate IP address.",
+	["Invalid IP"] = "Unable to verify IP address",
+	["Proxy IP"] = "Unable to validate IP address",
 }
 
 ---------------------
@@ -168,6 +168,11 @@ end
 					nil if the connection failed or retrieved from cache.
 ---------------------------------------------------------------------------]]
 function WARDEN.CheckIP( ip, func, useCache )
+	if not WARDEN.API_KEY then
+		WARDEN_Log( 1, "Please set your Warden API key via the \"warden_setapikey\" console command!")
+		WARDEN_Log( 1, "Enter \"warden_help\" for more information.")
+		return
+	end
 	-- Prevent the server host from getting kicked.
 	if table.HasValue( WARDEN.Config.NoCheck, ip ) then
 		WARDEN_Log( 2, "Preventing the check of the IP address \""..ip.."\" because it is in the no-check list.")
@@ -273,7 +278,7 @@ local function WARDEN_PlayerInitialSpawn( ply )
 
 	WARDEN.CheckIP( ply:IPAddress(), function( block )
 		if !block or block == -3 then
-			WARDEN_Log( 1, "Failed to connect to IPHub API to check the IP address of"..ply:Nick().."!" )
+			WARDEN_Log( 1, "Cannot perform IP check on "..ply:Nick().."! Error code: -3" )
 			return
 		end
 
@@ -308,7 +313,13 @@ hook.Add( "PlayerInitialSpawn", "WARDEN_PlayerInitialSpawn", WARDEN_PlayerInitia
 -----------------
 
 -- Displays help on how to setup Warden.
-concommand.Add( "warden_help", function()
+concommand.Add( "warden_help", function( ply )
+	-- Only allow the server console to run this.
+	if not ply == NULL then
+		ply:PrintMessage( HUD_PRINTCONSOLE, "Please run this command in the server console." )
+		return	
+	end
+		
 	WARDEN_Log( 0, "To get your API key and activate Warden, follow these steps:")
 	WARDEN_Log( 0, "Step 1) Go to http://iphub.info/ and create a free account." )
 	WARDEN_Log( 0, "Step 2) Click the link in your e-mail to verify your account.")
@@ -320,7 +331,11 @@ end )
 
 -- The command used to set the API key to be used.
 concommand.Add( "warden_setapikey", function( ply, cmd, args )
-	if !ply:IsSuperAdmin() then return end
+	if not ply == NULL then
+		ply:PrintMessage( HUD_PRINTCONSOLE, "Please run this command in the server console." )
+		return	
+	end
+
 	if not args or table.Count( args ) != 1 then
 		WARDEN_Log( 1, "Invalid syntax! Use \"warden_setapikey [apikey]\"" )
 		return
