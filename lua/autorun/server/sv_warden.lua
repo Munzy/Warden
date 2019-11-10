@@ -146,7 +146,7 @@ function WARDEN.CheckIP( ip, callback, useCache )
 		return
 	end
 
-	http.Fetch( "http://proxy.mind-media.com/block/proxycheck.php?ip="..ip,
+	http.Fetch( "https://blackbox.ipinfo.app/lookup/"..ip,
 		function( info )
 			callback( info )
 
